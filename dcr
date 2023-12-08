@@ -1,0 +1,37 @@
+from abc import ABC, abstractmethod
+
+# Абстрактний клас компонента
+class Component(ABC):
+    @abstractmethod
+    def operation(self):
+        pass
+
+# Конкретний компонент
+class ConcreteComponent(Component):
+    def operation(self):
+        return "ConcreteComponent"
+
+# Базовий клас декоратора
+class Decorator(Component):
+    def __init__(self, component):
+        self._component = component
+
+    def operation(self):
+        return self._component.operation()
+
+# Конкретний декоратор
+class ConcreteDecoratorA(Decorator):
+    def operation(self):
+        return f"ConcreteDecoratorA({self._component.operation()})"
+
+# Інший конкретний декоратор
+class ConcreteDecoratorB(Decorator):
+    def operation(self):
+        return f"ConcreteDecoratorB({self._component.operation()})"
+
+# Використання
+simple_component = ConcreteComponent()
+decorated_component = ConcreteDecoratorA(ConcreteDecoratorB(simple_component))
+
+result = decorated_component.operation()
+print(result)
